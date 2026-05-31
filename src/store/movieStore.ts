@@ -45,7 +45,11 @@ export const useMovieStore = create<MovieStore>()(
 
       toggleFavorite: (movie) => {
         const { isFavorite, addToFavorites, removeFromFavorites } = get();
-        isFavorite(movie.id) ? removeFromFavorites(movie.id) : addToFavorites(movie);
+        if (isFavorite(movie.id)) {
+          removeFromFavorites(movie.id);
+        } else {
+          addToFavorites(movie);
+        }
       },
 
       isFavorite: (movieId) => get().favorites.some((m) => m.id === movieId),
@@ -63,7 +67,11 @@ export const useMovieStore = create<MovieStore>()(
 
       toggleWatchlist: (movie) => {
         const { isInWatchlist, addToWatchlist, removeFromWatchlist } = get();
-        isInWatchlist(movie.id) ? removeFromWatchlist(movie.id) : addToWatchlist(movie);
+        if (isInWatchlist(movie.id)) {
+          removeFromWatchlist(movie.id);
+        } else {
+          addToWatchlist(movie);
+        }
       },
 
       isInWatchlist: (movieId) => get().watchlist.some((m) => m.id === movieId),

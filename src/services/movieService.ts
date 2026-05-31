@@ -15,24 +15,23 @@ export const movieService = {
   // Endpoint: GET /search/movie
   // TODO: Add more endpoints as needed
   getPopularMovies: async (page: number = 1): Promise<MovieResponse> => {
-    const { data } = await api.get<MovieResponse>('/movie/popular', {
-      params: { page },
-    });
+    const { data } = await api.get<MovieResponse>('/movie/popular', { params: { page } });
     return data;
   },
 
   getNowPlayingMovies: async (page: number = 1): Promise<MovieResponse> => {
-    const { data } = await api.get<MovieResponse>('/movie/now_playing', {
-      params: { page },
-    });
+    const { data } = await api.get<MovieResponse>('/movie/now_playing', { params: { page } });
+    return data;
+  },
+
+  getTrendingMovies: async (page: number = 1): Promise<MovieResponse> => {
+    const { data } = await api.get<MovieResponse>('/trending/movie/week', { params: { page } });
     return data;
   },
 
   getMovieDetails: async (movieId: number): Promise<MovieDetails> => {
     const { data } = await api.get<MovieDetails>(`/movie/${movieId}`, {
-      params: {
-        append_to_response: 'credits,videos,similar',
-      },
+      params: { append_to_response: 'credits,videos,similar' },
     });
     return data;
   },

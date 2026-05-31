@@ -30,6 +30,16 @@ export const useNowPlayingMovies = (page: number = 1) => {
   });
 };
 
+export const useTrendingMovies = (page: number = 1) => {
+  return useQuery({
+    queryKey: QUERY_KEYS.movies.trending(page),
+    queryFn: () => movieService.getTrendingMovies(page),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    placeholderData: (prev) => prev,
+  });
+};
+
 export const useMovieDetails = (movieId: number) => {
   return useQuery({
     queryKey: QUERY_KEYS.movies.details(movieId),

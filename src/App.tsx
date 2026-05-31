@@ -1,4 +1,18 @@
 import './index.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Navbar } from '@/components/layout/Navbar';
+import { HomePage } from '@/pages/Homepage';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   // TODO: Setup routing dengan React Router
@@ -6,36 +20,19 @@ function App() {
   // TODO: Add navigation between pages
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">Movie Explorer</h1>
-          {/* TODO: Add navigation menu */}
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <div className="min-h-screen bg-neutral-950 text-white">
+          <Navbar />
+          <main>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+            </Routes>
+          </main>
         </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-8">
-        <div className="text-center space-y-4">
-          <h2 className="text-4xl font-bold">Challenge 9 - Movie App</h2>
-          <p className="text-muted-foreground">
-            Mulai dengan membaca README.md untuk instruksi lengkap!
-          </p>
-
-          <div className="mt-8 p-6 border rounded-lg bg-card">
-            <h3 className="text-xl font-semibold mb-2">Langkah Pertama:</h3>
-            <ol className="text-left space-y-2 max-w-2xl mx-auto">
-              <li>1. Copy file .env.example menjadi .env</li>
-              <li>2. Daftar di TheMovieDB dan dapatkan API key</li>
-              <li>3. Isi VITE_TMDB_API_KEY di file .env</li>
-              <li>4. Jalankan npm install untuk menginstall dependencies</li>
-              <li>5. Mulai develop dengan npm run dev</li>
-            </ol>
-          </div>
-        </div>
-
-        {/* TODO: Replace this with your actual application routes and components */}
-      </main>
-    </div>
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
