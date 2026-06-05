@@ -28,14 +28,17 @@ export const IMAGE_SIZES = {
 
 export const STORAGE_KEYS = {
   favorites: 'movie-favorites',
-  watchlist: 'movie-watchlist',
+  watchlist: 'movie-watchlist', // ← was missing before
 } as const;
 
 export const QUERY_KEYS = {
   movies: {
     popular: (page: number) => ['movies', 'popular', page] as const,
     nowPlaying: (page: number) => ['movies', 'now-playing', page] as const,
+    trending: (page: number) => ['movies', 'trending', page] as const,
     details: (id: number) => ['movie', id] as const,
     search: (query: string, page: number) => ['movies', 'search', query, page] as const,
   },
 } as const;
+
+export const TMDB_IMAGE_BASE_URL = import.meta.env.VITE_TMDB_IMAGE_BASE_URL as string;
