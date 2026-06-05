@@ -28,7 +28,7 @@ export const IMAGE_SIZES = {
 
 export const STORAGE_KEYS = {
   favorites: 'movie-favorites',
-  watchlist: 'movie-watchlist',
+  watchlist: 'movie-watchlist', // ← was missing before
 } as const;
 
 export const QUERY_KEYS = {

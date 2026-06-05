@@ -14,6 +14,7 @@ export interface Movie {
   vote_average: number;
   vote_count: number;
   genre_ids: number[];
+  adult: boolean;
 }
 
 export interface MovieResponse {
@@ -92,4 +93,95 @@ export interface Video {
 export interface VideoResponse {
   id: number;
   results: Video[];
+}
+// Movie Detail
+
+export interface MovieDetailHeroProps {
+  movie: MovieDetails;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
+  onWatchTrailer: () => void;
+}
+
+export interface TrailerModalProps {
+  videos: Video[];
+  visible: boolean;
+  onClose: () => void;
+  movieTitle: string;
+}
+
+export interface MovieStatsProps {
+  movie: MovieDetails;
+  icon?: string;
+  className?: string;
+}
+
+export interface MovieOverviewProps {
+  movie: MovieDetails;
+}
+
+export interface CastSectionProps {
+  cast: Cast[];
+}
+
+export interface ToastProps {
+  message: string;
+  visible: boolean;
+  onClose: () => void;
+  duration?: number;
+}
+
+export interface FavoriteItemProps {
+  movie: Movie;
+  index: number;
+  isFavorite: boolean;
+  onRemove: (movie: Movie) => void;
+  onWatchTrailer: (movie: Movie) => void;
+}
+
+export interface SearchResultItemProps {
+  movie: Movie;
+  index: number;
+  onWatchTrailer: (movie: Movie) => void;
+}
+
+// ---- Movie Card -----
+
+export interface MovieCardProps {
+  movie: Movie;
+  index?: number;
+  showRank?: boolean;
+  rank?: number;
+}
+
+// ---- Movie Grid -----
+
+export interface MovieGridProps {
+  movies?: Movie[];
+  isLoading: boolean;
+  title?: string;
+  skeletonCount?: number;
+}
+
+// ---- UI Components ----
+
+// --Button--
+
+export type ButtonType = 'primary' | 'secondary';
+
+export interface ButtonProps {
+  label?: string;
+  type: ButtonType;
+  onClick?: () => void;
+  disabled?: boolean;
+  className?: string;
+  image?: React.ReactNode;
+}
+
+/**
+ * Logo types
+ */
+export interface LogoProps {
+  className?: string;
+  onClick?: () => void;
 }

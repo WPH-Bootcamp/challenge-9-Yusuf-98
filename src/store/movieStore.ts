@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { STORAGE_KEYS } from '@/lib/constants';
 import type { Movie } from '@/types/movie';
 
 // TODO: Define your store state interface
@@ -77,7 +76,9 @@ export const useMovieStore = create<MovieStore>()(
       isInWatchlist: (movieId) => get().watchlist.some((m) => m.id === movieId),
     }),
     {
-      name: STORAGE_KEYS.favorites,
+      // ← sebelumnya pakai STORAGE_KEYS.favorites untuk keduanya
+      // sekarang pakai key gabungan yang proper
+      name: 'movie-store',
       partialize: (state) => ({
         favorites: state.favorites,
         watchlist: state.watchlist,

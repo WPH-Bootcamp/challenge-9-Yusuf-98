@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Play } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTrendingMovies } from '@/hooks/useMovies';
 import { getImageUrl } from '@/lib/utils';
 import { IMAGE_SIZES } from '@/lib/constants';
+import { Button } from '../ui/button';
+import PlayIcon from '../../assets/icons/play.png';
 
 export function HeroSection() {
   const { data } = useTrendingMovies();
@@ -24,18 +25,18 @@ export function HeroSection() {
   }, [movies.length]);
 
   if (!movie) {
-    return <div className="relative w-full bg-black" style={{ height: '810px' }} />;
+    return <div className="relative w-full bg-black h-98 lg:h-202.5 max-h-202.5" />;
   }
 
   const backdropUrl = getImageUrl(movie.backdrop_path, IMAGE_SIZES.backdrop.large);
 
   return (
-    <div className="relative w-full overflow-hidden" style={{ height: '810px' }}>
-      {/* Background image with crossfade */}
+    <div className="w-full h-98 mx-auto lg:h-202.5 max-h-202.5">
+      {/* Background image */}
       <AnimatePresence mode="sync">
         <motion.div
           key={movie.id}
-          className="absolute inset-0"
+          className="absolute inset-0 w-full h-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -44,17 +45,15 @@ export function HeroSection() {
           <img
             src={backdropUrl}
             alt={movie.title}
-            className="w-full h-full object-cover object-top"
+            className="w-3/2 h-3/2 object-contain object-top mx-auto"
           />
           {/* Gradient overlays */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
+          <div className="absolute -bottom-202.5 inset-0 bg-linear-to-t from-black via-black to-transparent" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Content - Frame 8: left: 140px, top: 298px */}
-      <div className="absolute" style={{ left: '140px', top: '298px', width: '635px' }}>
+      {/* Content */}
+      <div className="w-90.25 md:w-120 lg:w-158.75 md:ml-4 lg:ml-0 mt-55.75 md:mt-65 lg:mt-74.5">
         <AnimatePresence mode="wait">
           <motion.div
             key={movie.id}
@@ -62,77 +61,43 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col gap-12"
+            className="flex flex-col gap-3xl md:gap-5xl lg:gap-6xl"
           >
             {/* Title */}
-            <div className="flex flex-col gap-3">
-              <h1 className="text-white font-black text-[56px] leading-none tracking-tight">
+            <div className="flex flex-col gap-sm md:gap-lg lg:gap-xl w-full z-20">
+              <h1 className="text-neutral-25 font-bold text-size-display-xs md:text-size-display-md lg:text-size-display-2xl">
                 {movie.title}
               </h1>
-              <p className="text-white/70 text-base leading-relaxed line-clamp-3">
+              <p className="text-neutral-400 text-size-sm md:text-size-md line-clamp-5">
                 {movie.overview}
               </p>
             </div>
 
             {/* Buttons - Frame 6 */}
-            <div className="flex flex-row items-end gap-20">
+            <div className="flex flex-col md:flex-row gap-xl">
               {/* Button Primary - Watch Trailer */}
-              <button
+              <Button
+                type="button"
+                variant={'default'}
                 onClick={() => navigate(`/movie/${movie.id}`)}
-                className="flex flex-row justify-center items-center gap-2 text-white font-semibold text-sm transition-opacity hover:opacity-90"
-                style={{
-                  width: '230px',
-                  height: '52px',
-                  background: '#961200',
-                  borderRadius: '9999px',
-                  padding: '8px',
-                }}
+                className="w-full md:w-57.5 z-20"
               >
-                Watch Trailer
-                <span className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-                  <Play size={10} fill="#961200" className="text-[#961200] ml-0.5" />
-                </span>
-              </button>
+                Watch Trailer <img src={PlayIcon} alt="" className="w-6 h-6" />
+              </Button>
 
               {/* Button Secondary - See Detail */}
-              <button
+              <Button
+                type="button"
+                variant={'secondary'}
                 onClick={() => navigate(`/movie/${movie.id}`)}
-                className="flex flex-row justify-center items-center gap-2 text-white font-semibold text-sm transition-opacity hover:opacity-90"
-                style={{
-                  width: '230px',
-                  height: '52px',
-                  background: 'rgba(10, 13, 18, 0.6)',
-                  border: '1px solid #181D27',
-                  backdropFilter: 'blur(20px)',
-                  borderRadius: '9999px',
-                  padding: '8px',
-                }}
+                className="w-full md:w-57.5 z-20"
               >
                 See Detail
-              </button>
+              </Button>
             </div>
           </motion.div>
         </AnimatePresence>
       </div>
-
-      {/* Slide indicators */}
-      {movies.length > 1 && (
-        <div className="absolute bottom-12 left-35 flex gap-2">
-          {movies.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              className="transition-all duration-300"
-              style={{
-                width: i === current ? '24px' : '8px',
-                height: '4px',
-                borderRadius: '9999px',
-                background: i === current ? 'white' : 'rgba(255,255,255,0.3)',
-              }}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
